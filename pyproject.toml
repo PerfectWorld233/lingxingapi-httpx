@@ -4,13 +4,13 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "lingxingapi-httpx"
-version = "0.1.0"
+version = "0.1.1"
 description = "领星开放平台 API 客户端，提供 httpx 异步和 requests 同步两种 HTTP 引擎实现。"
 readme = "README.md"
 license = "MIT"
 requires-python = ">=3.10"
 authors = [
-    {name = "magic", email = "perfectworlddream@gmail.com"},
+    {name = "PerfectWorld233", email = "perfectworlddream@gmail.com"},
 ]
 keywords = [
     "lingxing",
