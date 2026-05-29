@@ -7,7 +7,7 @@
 [![License](https://img.shields.io/github/license/PerfectWorld233/lingxingapi-httpx?style=flat-square)](LICENSE)
 [![Code Style](https://img.shields.io/badge/code%20style-black-black?style=flat-square)](https://github.com/psf/black)
 
-领星 ERP开放平台 API 客户端，基于 **httpx** 异步引擎实现。
+领星 ERP 开放平台 API 客户端，基于 **httpx** 异步引擎实现。
 
 </div>
 
@@ -33,7 +33,7 @@
 
 ## 项目简介
 
-本项目是领星 ERP官方 Python SDK 的现代化重构版本，将底层 HTTP 引擎从 `aiohttp` 替换为业界更主流的 `httpx`，完整保留了原始的签名算法、Token 自动刷新、错误重试等核心业务能力。
+本项目是领星 ERP 官方 Python SDK 的现代化重构版本，将底层 HTTP 引擎从 `aiohttp` 替换为业界更主流的 `httpx`，完整保留了原始的签名算法、Token 自动刷新、错误重试等核心业务能力。
 
 `httpx` 同时提供异步客户端（`AsyncClient`）与同步客户端（`Client`），本项目当前版本基于异步实现，充分发挥 Python `asyncio` 的高并发优势。如果你有同步调用需求，也可以基于 `httpx.Client` 自行封装同步接口。
 
@@ -177,8 +177,8 @@ api = API(app_id="your_app_id", app_secret="your_app_secret")
 
 | 参数 | 类型 | 默认值 | 说明 |
 |---|---|---|---|
-| `app_id` | `str` | 必填 | 领星 ERP开放平台应用 ID |
-| `app_secret` | `str` | 必填 | 领星 ERP开放平台应用密钥 |
+| `app_id` | `str` | 必填 | 领星 ERP 开放平台应用 ID |
+| `app_secret` | `str` | 必填 | 领星 ERP 开放平台应用密钥 |
 | `timeout` | `int / float` | `60` | 请求超时（秒） |
 | `ignore_timeout` | `bool` | `False` | 超时时是否自动重试 |
 | `ignore_timeout_wait` | `int / float` | `1` | 超时重试等待间隔（秒） |
@@ -205,7 +205,7 @@ api = API(app_id="your_app_id", app_secret="your_app_secret")
 | `ApiSettingsError` | 初始化参数非法 |
 | `InternetConnectionError` | 无法连接互联网 |
 | `ApiTimeoutError` | 请求超时 |
-| `InternalServerError` | 领星 ERP服务器 500 错误 |
+| `InternalServerError` | 领星 ERP 服务器 500 错误 |
 | `AccessTokenExpiredError` | `access_token` 过期 |
 | `RefreshTokenExpiredError` | `refresh_token` 过期 |
 | `SignatureExpiredError` | 签名过期 |
@@ -259,7 +259,7 @@ python test_signature_httpx.py
 
 ## 注意事项
 
-1. **IP 白名单**：领星 ERP开放平台要求将调用方的出口 IP 加入 API 白名单，否则可能返回 403。
+1. **IP 白名单**：领星 ERP 开放平台要求将调用方的出口 IP 加入 API 白名单，否则可能返回 403。
 2. **Token 复用**：`access_token` 和 `refresh_token` 在进程内自动缓存，多个 API 实例共享同一 Token。
 3. **会话关闭**：httpx / requests 的会话在 `async with` / `with` 退出时自动关闭，建议始终使用上下文管理器。
 4. **.env 安全**：`.env` 文件包含敏感信息，请勿提交到 Git 仓库。建议将 `.env` 加入 `.gitignore`。
@@ -282,4 +282,4 @@ python test_signature_httpx.py
 
 ## 许可证
 
-本项目为领星 ERP官方 SDK 的翻译/改写版本，仅供学习和内部使用。
+本项目为领星 ERP 官方 SDK 的翻译/改写版本，仅供学习和内部使用。
