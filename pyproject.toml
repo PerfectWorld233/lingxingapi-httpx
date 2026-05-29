@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "lingxingapi-httpx"
-version = "0.1.2"
+version = "0.1.3"
 description = "领星开放平台 API 客户端，基于 httpx 异步引擎实现。"
 readme = "README.md"
 license = "MIT"
