@@ -1,0 +1,68 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "lingxingapi-httpx"
+version = "0.1.0"
+description = "领星开放平台 API 客户端，提供 httpx 异步和 requests 同步两种 HTTP 引擎实现。"
+readme = "README.md"
+license = "MIT"
+requires-python = ">=3.10"
+authors = [
+    {name = "magic", email = "perfectworlddream@gmail.com"},
+]
+keywords = [
+    "lingxing",
+    "erp",
+    "amazon",
+    "fba",
+    "api",
+    "httpx",
+    "async",
+    "sdk",
+]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+]
+dependencies = [
+    "httpx>=0.25.0",
+    "pydantic>=2.0.0",
+    "pycryptodome>=3.20.0",
+    "typing-extensions>=4.0.0",
+    "orjson>=3.9.0",
+    "cytimes>=0.1.0",
+]
+
+[project.optional-dependencies]
+sync = [
+    "requests>=2.31.0",
+]
+dev = [
+    "pytest>=7.0.0",
+    "pytest-asyncio>=0.21.0",
+    "python-dotenv>=1.0.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/PerfectWorld233/lingxingapi-httpx"
+Repository = "https://github.com/PerfectWorld233/lingxingapi-httpx"
+Issues = "https://github.com/PerfectWorld233/lingxingapi-httpx/issues"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["lingxingapi_httpx*", "lingxingapi_sync*"]
+exclude = ["tests*", "test_*"]
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+testpaths = ["."]
+python_files = ["test_*.py"]
