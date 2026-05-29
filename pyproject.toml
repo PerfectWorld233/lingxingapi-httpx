@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "lingxingapi-httpx"
 version = "0.1.1"
-description = "领星开放平台 API 客户端，提供 httpx 异步和 requests 同步两种 HTTP 引擎实现。"
+description = "领星开放平台 API 客户端，基于 httpx 异步引擎实现。"
 readme = "README.md"
 license = "MIT"
 requires-python = ">=3.10"
@@ -43,9 +43,6 @@ dependencies = [
 ]
 
 [project.optional-dependencies]
-sync = [
-    "requests>=2.31.0",
-]
 dev = [
     "pytest>=7.0.0",
     "pytest-asyncio>=0.21.0",
@@ -59,7 +56,7 @@ Issues = "https://github.com/PerfectWorld233/lingxingapi-httpx/issues"
 
 [tool.setuptools.packages.find]
 where = ["."]
-include = ["lingxingapi_httpx*", "lingxingapi_sync*"]
+include = ["lingxingapi_httpx*"]
 exclude = ["tests*", "test_*"]
 
 [tool.pytest.ini_options]

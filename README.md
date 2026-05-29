@@ -7,7 +7,7 @@
 [![License](https://img.shields.io/github/license/PerfectWorld233/lingxingapi-httpx?style=flat-square)](LICENSE)
 [![Code Style](https://img.shields.io/badge/code%20style-black-black?style=flat-square)](https://github.com/psf/black)
 
-领星开放平台 API 客户端，基于 **httpx** 与 **requests** 双引擎实现，完整支持异步与同步调用。
+领星开放平台 API 客户端，基于 **httpx** 异步引擎实现。
 
 </div>
 
@@ -19,8 +19,6 @@
 - [功能特性](#功能特性)
 - [安装](#安装)
 - [快速开始](#快速开始)
-  - [httpx 异步版本](#httpx-异步版本)
-  - [requests 同步版本](#requests-同步版本)
 - [配置凭证](#配置凭证)
 - [支持的 API 模块](#支持的-api-模块)
 - [核心参数说明](#核心参数说明)
@@ -35,15 +33,15 @@
 
 ## 项目简介
 
-本项目是领星官方 Python SDK 的现代化重构版本，将底层 HTTP 引擎从 `aiohttp` 替换为业界更主流的 `httpx`（异步）和 `requests`（同步），完整保留了原始的签名算法、Token 自动刷新、错误重试等核心业务能力。
+本项目是领星官方 Python SDK 的现代化重构版本，将底层 HTTP 引擎从 `aiohttp` 替换为业界更主流的 `httpx`，完整保留了原始的签名算法、Token 自动刷新、错误重试等核心业务能力。
 
-无论你是需要高并发的异步爬虫，还是简单直观的同步脚本，`lingxingapi-httpx` 都能提供一致且稳定的开发体验。
+无论你是需要高并发的异步爬虫，`lingxingapi-httpx` 都能提供一致且稳定的开发体验。
 
 ---
 
 ## 功能特性
 
-- **双引擎支持**：同时提供 `httpx` 异步客户端与 `requests` 同步客户端，一套代码，两种选择
+- **异步高性能**：基于 `httpx` 异步客户端，充分利用 Python 异步特性，轻松应对高并发场景
 - **完整业务覆盖**：涵盖基础数据、销售、FBA、产品、采购、仓库、广告、财务、工具、亚马逊源数据等十大模块
 - **自动鉴权**：`access_token` 与 `refresh_token` 在进程内自动缓存与刷新，多实例共享同一 Token
 - **智能重试**：内置超时、限流、500 错误、网络断连等多场景自动重试机制，支持自定义重试策略
@@ -107,33 +105,6 @@ async def main():
             print(seller.seller_name, seller.status)
 
 asyncio.run(main())
-```
-
-### requests 同步版本
-
-```python
-from lingxingapi_sync import API
-
-with API(
-    app_id="your_app_id",
-    app_secret="your_app_secret",
-    timeout=30,
-    ignore_timeout=True,
-    ignore_api_limit=True,
-) as api:
-    # 获取 Token
-    token = api.AccessToken()
-    print(token.access_token)
-
-    # 查询亚马逊市场列表
-    mps = api.basic.Marketplaces()
-    for mp in mps.data:
-        print(mp.country, mp.country_code)
-
-    # 查询店铺列表
-    sellers = api.basic.Sellers()
-    for seller in sellers.data:
-        print(seller.seller_name, seller.status)
 ```
 
 ---
@@ -227,15 +198,15 @@ api = API(app_id="your_app_id", app_secret="your_app_secret")
 
 ## 与官方 SDK 的差异
 
-| 特性 | 官方 SDK (`aiohttp`) | 本项目 (`httpx`) | 本项目 (`requests`) |
-|---|---|---|---|
-| 异步 / 同步 | 异步 | 异步 | 同步 |
-| HTTP 引擎 | `aiohttp` | `httpx.AsyncClient` | `requests.Session` |
-| 上下文管理器 | `async with` | `async with` | `with` |
-| 签名算法 | AES-ECB + MD5 + Base64 | 完全一致 | 完全一致 |
-| Token 自动刷新 | 支持 | 支持 | 支持 |
-| 限流 / 超时重试 | 支持 | 支持 | 支持 |
-| User-Agent | `python-requests/2.31.0` | 无（避免 WAF 拦截） | 无（避免 WAF 拦截） |
+| 特性 | 官方 SDK (`aiohttp`) | 本项目 (`httpx`) |
+|---|---|---|
+| 异步 / 同步 | 异步 | 异步 |
+| HTTP 引擎 | `aiohttp` | `httpx.AsyncClient` |
+| 上下文管理器 | `async with` | `async with` |
+| 签名算法 | AES-ECB + MD5 + Base64 | 完全一致 |
+| Token 自动刷新 | 支持 | 支持 |
+| 限流 / 超时重试 | 支持 | 支持 |
+| User-Agent | `python-requests/2.31.0` | 无（避免 WAF 拦截） |
 
 ---
 
@@ -246,9 +217,6 @@ api = API(app_id="your_app_id", app_secret="your_app_secret")
 ```bash
 # httpx 异步版本
 python test_basic_api_httpx.py
-
-# requests 同步版本
-python test_basic_api.py
 ```
 
 ### pytest 单测
