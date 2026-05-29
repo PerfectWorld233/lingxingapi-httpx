@@ -35,13 +35,13 @@
 
 本项目是领星官方 Python SDK 的现代化重构版本，将底层 HTTP 引擎从 `aiohttp` 替换为业界更主流的 `httpx`，完整保留了原始的签名算法、Token 自动刷新、错误重试等核心业务能力。
 
-无论你是需要高并发的异步爬虫，`lingxingapi-httpx` 都能提供一致且稳定的开发体验。
+`httpx` 同时提供异步客户端（`AsyncClient`）与同步客户端（`Client`），本项目当前版本基于异步实现，充分发挥 Python `asyncio` 的高并发优势。如果你有同步调用需求，也可以基于 `httpx.Client` 自行封装同步接口。
 
 ---
 
 ## 功能特性
 
-- **异步高性能**：基于 `httpx` 异步客户端，充分利用 Python 异步特性，轻松应对高并发场景
+- **异步高性能**：基于 `httpx` 异步客户端（`AsyncClient`），充分利用 Python 异步特性，轻松应对高并发场景；`httpx` 也提供同步客户端（`Client`），同步封装逻辑完全通用
 - **完整业务覆盖**：涵盖基础数据、销售、FBA、产品、采购、仓库、广告、财务、工具、亚马逊源数据等十大模块
 - **自动鉴权**：`access_token` 与 `refresh_token` 在进程内自动缓存与刷新，多实例共享同一 Token
 - **智能重试**：内置超时、限流、500 错误、网络断连等多场景自动重试机制，支持自定义重试策略
@@ -76,6 +76,9 @@ pip install -e .
 
 ## 快速开始
 
+- [httpx 异步版本](#httpx-异步版本)
+- [httpx 同步说明](#httpx-同步说明)
+
 ### httpx 异步版本
 
 ```python
@@ -106,6 +109,23 @@ async def main():
 
 asyncio.run(main())
 ```
+
+### httpx 同步说明
+
+`httpx` 本身也支持同步客户端 `httpx.Client`。如果你不想使用 `async/await`，可以基于 `httpx.Client` 自行封装同步版本的领星 API 调用：
+
+```python
+import httpx
+
+with httpx.Client(timeout=30) as client:
+    response = client.post(
+        "https://openapi.lingxing.com/api/auth-server/oauth/token",
+        data={...}
+    )
+    print(response.json())
+```
+
+同步封装的核心思路与异步版本完全一致：使用 `httpx.Client` 替代 `httpx.AsyncClient`，将 `async def` 改为普通 `def`，去掉 `await` 和 `async with` 即可。签名算法、Token 刷新、错误重试等逻辑完全通用。
 
 ---
 
@@ -200,9 +220,9 @@ api = API(app_id="your_app_id", app_secret="your_app_secret")
 
 | 特性 | 官方 SDK (`aiohttp`) | 本项目 (`httpx`) |
 |---|---|---|
-| 异步 / 同步 | 异步 | 异步 |
-| HTTP 引擎 | `aiohttp` | `httpx.AsyncClient` |
-| 上下文管理器 | `async with` | `async with` |
+| 异步 / 同步 | 仅异步 | 异步（`httpx` 原生支持同步扩展） |
+| HTTP 引擎 | `aiohttp` | `httpx.AsyncClient` / `httpx.Client` |
+| 上下文管理器 | `async with` | `async with` / `with` |
 | 签名算法 | AES-ECB + MD5 + Base64 | 完全一致 |
 | Token 自动刷新 | 支持 | 支持 |
 | 限流 / 超时重试 | 支持 | 支持 |
