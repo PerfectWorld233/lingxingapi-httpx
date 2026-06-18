@@ -13,6 +13,7 @@ from lingxingapi_httpx.ads.api import AdsAPI
 from lingxingapi_httpx.finance.api import FinanceAPI
 from lingxingapi_httpx.tools.api import ToolsAPI
 from lingxingapi_httpx.source.api import SourceAPI
+from lingxingapi_httpx.multi_platform.api import MultiPlatformAPI
 
 
 # API ------------------------------------------------------------------------------------------------------------------
@@ -225,6 +226,7 @@ class API(BaseAPI):
         self._finance: FinanceAPI = FinanceAPI(**kwargs)
         self._tools: ToolsAPI = ToolsAPI(**kwargs)
         self._source: SourceAPI = SourceAPI(**kwargs)
+        self._multi_platform: MultiPlatformAPI = MultiPlatformAPI(**kwargs)
 
     # 公共 API --------------------------------------------------------------------------------------
     # . 授权
@@ -569,3 +571,23 @@ class API(BaseAPI):
             - ExportReportRefresh: [报告导出 - 报告下载链接续期](https://apidoc.lingxing.com/#/docs/Statistics/AmazonReportExportTask)
         """
         return self._source
+
+    # . 多平台数据
+    @property
+    def multi_platform(self) -> MultiPlatformAPI:
+        """领星API `多平台` 接口 `<'MultiPlatformAPI'>`
+
+        ## Docs
+        * 多平台 - 店铺
+            - Shops: [查询多平台店铺信息](https://apidoc.lingxing.com/#/docs/MultiPlatform/V2/StoreInfoV2)
+
+        * 多平台 - 平台订单
+            - PlatformOrders: [查询平台订单列表](https://apidoc.lingxing.com/#/docs/MultiPlatform/V2/newPlatformOrderList)
+
+        * 多平台 - 配对
+            - Pairs: [查询多平台配对列表](https://apidoc.lingxing.com/#/docs/MultiPlatform/V2/PairListV2)
+
+        * 多平台 - 订单管理
+            - Orders: [查询订单管理订单列表](https://apidoc.lingxing.com/#/docs/MultiPlatform/V2/MultiPlatOrderV2)
+        """
+        return self._multi_platform
